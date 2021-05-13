@@ -16,7 +16,6 @@ def get_quote():
   json_data = json.loads(response.text)
   quote = json_data[0]['q'] + " -" + json_data[0]['a']
   return(quote)
-
 @client.event
 async def on_ready():
     print('We have logged in as {0.user}'.format(client))
@@ -30,6 +29,12 @@ async def on_message(message):
 
     if msg.startswith('$hello'):
         await message.channel.send('Hello!')
+    if message.content.startswith('$bussin'):
+        await message.channel.send('Sheeeeesh')
+
+    if message.content.startswith('$inspire'):
+        quote = get_quote()
+        await message.channel.send(quote)
 
     if msg.startswith('$cat'):
       quote = get_quote()
