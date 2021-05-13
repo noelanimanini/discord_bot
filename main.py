@@ -4,7 +4,7 @@ import requests
 import json
 import random 
 from dotenv import load_dotenv
-from keep_alive import keep_alive
+
 load_dotenv()
 
 client = discord.Client()
@@ -43,5 +43,5 @@ async def on_message(message):
 
     if any(word in msg for word in sad_words):
       await message.channel.send(random.choice(starter_encouragements))
-keep_alive()
+
 client.run(os.getenv('TOKEN'))
