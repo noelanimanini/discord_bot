@@ -1,11 +1,16 @@
 import discord
 import os
-from dotenv import load_dotenv
 import requests
 import json
+import random 
+from dotenv import load_dotenv
+from keep_alive import keep_alive
 load_dotenv()
 
 client = discord.Client()
+sad_words = ["sad", "depressed", "unhappy", "angry", "miserable"]
+starter_encouragements = ["cheer up!", "hang in there", "you are a great person / bot!"]
+
 def get_quote():
   response = requests.get("https://zenquotes.io/api/random")
   json_data = json.loads(response.text)
@@ -20,12 +25,23 @@ async def on_ready():
 async def on_message(message):
     if message.author == client.user:
         return
+    
+    msg = message.content
 
+    if msg.startswith('$hello'):
+        await message.channel.send('Hello!')
     if message.content.startswith('$bussin'):
-        await message.channel.send('Sheeeeesh')
+        await message.channel.send('https://www.youtube.com/watch?v=oSlR_XApa20&ab_channel=FatherMemeFatherMeme?autoplay=1')
 
     if message.content.startswith('$inspire'):
         quote = get_quote()
         await message.channel.send(quote)
 
+    if msg.startswith('$cat'):
+      quote = get_quote()
+      await message.channel.send(quote)
+
+    if any(word in msg for word in sad_words):
+      await message.channel.send(random.choice(starter_encouragements))
+keep_alive()
 client.run(os.getenv('TOKEN'))
